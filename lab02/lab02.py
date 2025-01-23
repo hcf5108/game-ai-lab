@@ -21,7 +21,17 @@ import itertools
 def best_hand(hand):
     "From a 7-card hand, return the best 5 card hand."
     # Your code here
-    pass
+    highest_hand = (0,0,0)
+    temp_hand = hand
+
+    for comb_hand in itertools.combinations(hand,5):
+        hr = hand_rank(comb_hand)
+        if hr > highest_hand:
+            highest_hand = hr
+            temp_hand = comb_hand
+    
+    return temp_hand
+    #pass
     
 # ------------------
 # Provided Functions
@@ -33,23 +43,23 @@ def best_hand(hand):
 def hand_rank(hand):
     "Return a value indicating the ranking of a hand."
     ranks = card_ranks(hand) 
-    if straight(ranks) and flush(hand):
+    if straight(ranks) and flush(hand):         #straight flush
         return (8, max(ranks))
-    elif kind(4, ranks):
+    elif kind(4, ranks):                        #4 of a kind
         return (7, kind(4, ranks), kind(1, ranks))
-    elif kind(3, ranks) and kind(2, ranks):
+    elif kind(3, ranks) and kind(2, ranks):     #full house
         return (6, kind(3, ranks), kind(2, ranks))
-    elif flush(hand):
+    elif flush(hand):                           #flush
         return (5, ranks)
-    elif straight(ranks):
+    elif straight(ranks):                       #straight
         return (4, max(ranks))
-    elif kind(3, ranks):
+    elif kind(3, ranks):                        #3 of a kind
         return (3, kind(3, ranks), ranks)
-    elif two_pair(ranks):
+    elif two_pair(ranks):                       #2 pair
         return (2, two_pair(ranks), ranks)
-    elif kind(2, ranks):
+    elif kind(2, ranks):                        #pair
         return (1, kind(2, ranks), ranks)
-    else:
+    else:                                       #high card
         return (0, ranks)
     
 def card_ranks(hand):
@@ -88,11 +98,11 @@ def two_pair(ranks):
     
 def best_hand_try():
     assert (sorted(best_hand("6C 7C 8C 9C TC 5C JS".split()))
-            == ['6C', '7C', '8C', '9C', 'TC'])
+            == ['6C', '7C', '8C', '9C', 'TC'])#straight flush
     assert (sorted(best_hand("TD TC TH 7C 7D 8C 8S".split()))
-            == ['8C', '8S', 'TC', 'TD', 'TH'])
+            == ['8C', '8S', 'TC', 'TD', 'TH'])#3 of a kind
     assert (sorted(best_hand("JD TC TH 7C 7D 7S 7H".split()))
-            == ['7C', '7D', '7H', '7S', 'JD'])
+            == ['7C', '7D', '7H', '7S', 'JD'])#4 of a kind
     return 'test_best_hand passes'
 
 if __name__ == '__main__':
