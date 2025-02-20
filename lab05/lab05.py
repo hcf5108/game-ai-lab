@@ -33,6 +33,6 @@ def process_response(self, response):
                         })
         response = self.completion()
     return response
-
+ 
 run_console_chat(template_file='lab05/lab05_dice_template.json',
             process_response=process_response)
